@@ -51,27 +51,27 @@ func main() {
 
 	for _, values := range activities {
 		stats[values] = make(map[string]int)
-		stats[values]["activityYesEventYes"] = 0
-		stats[values]["activityYesEventNo"] = 0
-		stats[values]["activityNoEventYes"] = 0
-		stats[values]["activityNoEventNo"] = 0
+		stats[values]["squirrel Yes "+values+" Yes"] = 0
+		stats[values]["squirrel Yes "+values+" No"] = 0
+		stats[values]["squirrel No "+values+" Yes"] = 0
+		stats[values]["squirrel No "+values+" No"] = 0
 
 		for items := 0; items < len(his); items++ {
 			if his[items].Squirrel && Find(his[items].Events, values) {
 				countYY++
-				stats[values]["activityYesEventYes"] = countYY
+				stats[values]["squirrel Yes "+values+" Yes"] = countYY
 			}
 			if his[items].Squirrel && !Find(his[items].Events, values) {
 				countYN++
-				stats[values]["activityYesEventNo"] = countYN
+				stats[values]["squirrel Yes "+values+" No"] = countYN
 			}
 			if !his[items].Squirrel && Find(his[items].Events, values) {
 				countNY++
-				stats[values]["activityNoEventYes"] = countNY
+				stats[values]["squirrel No "+values+" Yes"] = countNY
 			}
 			if !his[items].Squirrel && !Find(his[items].Events, values) {
 				countNN++
-				stats[values]["activityNoEventNo"] = countNN
+				stats[values]["squirrel No "+values+" No"] = countNN
 			}
 		}
 		countYY = 0
@@ -80,7 +80,12 @@ func main() {
 		countNN = 0
 	}
 
-	fmt.Println(stats)
+	var result = make(map[string]int)
+
+	for key, val := range stats {
+		result[key] = 0
+		fmt.Println(key, val)
+	}
 }
 
 func Find(slice []string, val string) bool {
