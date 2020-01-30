@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"os"
 )
 
@@ -79,13 +80,22 @@ func main() {
 		countNY = 0
 		countNN = 0
 	}
-
-	var result = make(map[string]int)
+	//fmt.Println(stats)
+	var result = make(map[string]float64)
 
 	for key, val := range stats {
 		result[key] = 0
-		fmt.Println(key, val)
+		counts := []float64{}
+		for k := range val {
+			counts = append(counts, float64(val[k]))
+
+		}
+		numerator := (counts[0] * counts[3]) - (counts[1] * counts[2])
+		denominator := math.Sqrt((counts[0] + counts[1]) * (counts[2] + counts[3]) * (counts[0] + counts[2]) * (counts[1] + counts[3]))
+		result[key] = numerator / denominator
+		fmt.Println(counts)
 	}
+	fmt.Println(result)
 }
 
 func Find(slice []string, val string) bool {
